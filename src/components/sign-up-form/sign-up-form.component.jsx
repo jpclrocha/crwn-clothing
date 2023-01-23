@@ -1,10 +1,13 @@
 import { useState } from 'react'
+
 import FormInput from '../form-input/form-input.component'
 import Button from '../button/button.component'
+
 import {
 	createAuthUserWithEmailAndPassword,
 	createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils'
+
 import './sign-up-form.styles.scss'
 
 const defaultFormFields = {
@@ -22,16 +25,11 @@ const SignUpForm = () => {
 		setFormFields(defaultFormFields)
 	}
 
-	const handleChange = (event) => {
-		const { name, value } = event.target
-		setFormFields({ ...formFields, [name]: value })
-	}
-
 	const handleSubmit = async (event) => {
 		event.preventDefault()
 
 		if (password !== confirmPassword) {
-			alert('Passwords do not match')
+			alert('passwords do not match')
 			return
 		}
 
@@ -40,6 +38,7 @@ const SignUpForm = () => {
 				email,
 				password
 			)
+
 			await createUserDocumentFromAuth(user, { displayName })
 			resetFormFields()
 		} catch (error) {
@@ -49,6 +48,12 @@ const SignUpForm = () => {
 				console.log('user creation encountered an error', error)
 			}
 		}
+	}
+
+	const handleChange = (event) => {
+		const { name, value } = event.target
+
+		setFormFields({ ...formFields, [name]: value })
 	}
 
 	return (
@@ -91,9 +96,7 @@ const SignUpForm = () => {
 					name='confirmPassword'
 					value={confirmPassword}
 				/>
-				<Button buttonType={'inverted'} type='submit'>
-					Sign Up
-				</Button>
+				<Button type='submit'>Sign Up</Button>
 			</form>
 		</div>
 	)
