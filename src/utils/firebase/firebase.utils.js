@@ -1,23 +1,23 @@
 import { initializeApp } from 'firebase/app'
 import {
-	getAuth,
-	signInWithRedirect,
-	signInWithPopup,
 	GoogleAuthProvider,
 	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
-	signOut,
+	getAuth,
 	onAuthStateChanged,
+	signInWithEmailAndPassword,
+	signInWithPopup,
+	signInWithRedirect,
+	signOut,
 } from 'firebase/auth'
 import {
-	getFirestore,
+	collection,
 	doc,
 	getDoc,
-	setDoc,
-	collection,
-	writeBatch,
-	query,
 	getDocs,
+	getFirestore,
+	query,
+	setDoc,
+	writeBatch,
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -29,7 +29,7 @@ const firebaseConfig = {
 	appId: '1:330024124481:web:6661109b14b8e56d5f46c0',
 }
 
-const firebaseApp = initializeApp(firebaseConfig)
+const app = initializeApp(firebaseConfig)
 
 const googleProvider = new GoogleAuthProvider()
 
@@ -46,11 +46,10 @@ export const db = getFirestore()
 
 export const addCollectionAndDocuments = async (
 	collectionKey,
-	objectsToAdd,
-	field
+	objectsToAdd
 ) => {
-	const collectionRef = collection(db, collectionKey)
 	const batch = writeBatch(db)
+	const collectionRef = collection(db, collectionKey)
 
 	objectsToAdd.forEach((object) => {
 		const docRef = doc(collectionRef, object.title.toLowerCase())
